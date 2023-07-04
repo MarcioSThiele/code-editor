@@ -20,21 +20,16 @@ import { Codemirror } from "vue-codemirror";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { xml } from "@codemirror/lang-xml";
 import { ref, shallowRef } from "vue";
+import beautify from "xml-beautifier";
 
 export default defineComponent({
   components: {
     Codemirror,
   },
   setup() {
-    const code = ref(
-      '<?xml version="1.0" encoding="ISO-8859-1"?>\
-    <note>\
-      <to>Tove</to>\
-      <from>Jani</from>\
-      <heading>Reminder</heading>\
-      <body>Don\'t forget me this weekend!</body>\
-    </note>'
-    );
+    const formattedXml =
+      '<?xml version="1.0" encoding="ISO-8859-1"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>';
+    const code = ref(beautify(formattedXml));
 
     const extensions = [xml(), oneDark];
 
@@ -46,23 +41,19 @@ export default defineComponent({
 
     // Status is available at all times via Codemirror EditorView
     // eslint-disable-next-line
-    const getCodemirrorStates = () => {
-      const state = view.value.state;
-      const ranges = state.selection.ranges;
-      // eslint-disable-next-line
-      const selected = ranges.reduce(
-        (r, range) => r + range.to - range.from,
-        0
-      );
-      // eslint-disable-next-line
-      const cursor = ranges[0].anchor;
-      // eslint-disable-next-line
-      const length = state.doc.length;
-      // eslint-disable-next-line
-      const lines = state.doc.lines;
-      // more state info ...
-      // return ...
-    };
+    // const getCodemirrorStates = () => {
+    //   const state = view.value.state;
+    //   const ranges = state.selection.ranges;
+    //   const selected = ranges.reduce(
+    //     (r, range) => r + range.to - range.from,
+    //     0
+    //   );
+    //   const cursor = ranges[0].anchor;
+    //   const length = state.doc.length;
+    //   const lines = state.doc.lines;
+    //   // more state info ...
+    //   // return ...
+    // };
 
     return {
       code,
@@ -73,3 +64,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped></style>
