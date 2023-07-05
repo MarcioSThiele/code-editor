@@ -1,16 +1,13 @@
 <template>
   <codemirror
     v-model="code"
-    placeholder="Code goes here..."
-    :style="{ height: '400px' }"
+    placeholder="There is no code..."
+    :style="{ height: '600px' }"
     :autofocus="true"
     :indent-with-tab="true"
     :tab-size="2"
     :extensions="extensions"
     @ready="handleReady"
-    @change="log('change', $event)"
-    @focus="log('focus', $event)"
-    @blur="log('blur', $event)"
   />
 </template>
 
@@ -39,27 +36,10 @@ export default defineComponent({
       view.value = payload.view;
     };
 
-    // Status is available at all times via Codemirror EditorView
-    // eslint-disable-next-line
-    // const getCodemirrorStates = () => {
-    //   const state = view.value.state;
-    //   const ranges = state.selection.ranges;
-    //   const selected = ranges.reduce(
-    //     (r, range) => r + range.to - range.from,
-    //     0
-    //   );
-    //   const cursor = ranges[0].anchor;
-    //   const length = state.doc.length;
-    //   const lines = state.doc.lines;
-    //   // more state info ...
-    //   // return ...
-    // };
-
     return {
       code,
       extensions,
       handleReady,
-      log: console.log,
     };
   },
 });
